@@ -134,7 +134,9 @@ export default function DashboardSection({ studyPlan, sessions, loading, error, 
   const [expandedWeek, setExpandedWeek] = useState<number | null>(null)
   const [completedTopics, setCompletedTopics] = useState<Record<string, boolean>>({})
   const [expandedSuggestion, setExpandedSuggestion] = useState<number | null>(null)
+  const [showProfileForm, setShowProfileForm] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const sidebarFileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     try {
@@ -157,6 +159,7 @@ export default function DashboardSection({ studyPlan, sessions, loading, error, 
   const handleGenerate = () => {
     localStorage.setItem('codeprep_profile', JSON.stringify(profile))
     onGeneratePlan(profile)
+    setShowProfileForm(false)
   }
 
   const toggleCompleted = (key: string) => {
@@ -177,6 +180,7 @@ export default function DashboardSection({ studyPlan, sessions, loading, error, 
 
   const displayPlan = useSample ? SAMPLE_PLAN : studyPlan
   const displaySessions = useSample ? SAMPLE_SESSIONS : sessions
+  const shouldShowSetup = showProfileForm || (!studyPlan && !useSample)
   const avgScore = displaySessions.length > 0 ? Math.round(displaySessions.reduce((a, s) => a + s.score, 0) / displaySessions.length) : 0
   const priorityColor = (p?: string) => {
     if (p === 'high') return 'bg-destructive/20 text-destructive border-destructive/30'
@@ -235,7 +239,7 @@ export default function DashboardSection({ studyPlan, sessions, loading, error, 
             <div className="grid grid-cols-5 gap-6">
               {/* Left: Roadmap or Profile Form */}
               <div className="col-span-3 space-y-4">
-                {!displayPlan ? (
+                {shouldShowSetup ? (
                   <>
                     {/* Syllabus Upload Card */}
                     <Card className="bg-card border-border shadow-xl shadow-black/20 border-primary/20">
@@ -317,7 +321,16 @@ export default function DashboardSection({ studyPlan, sessions, loading, error, 
 
                     {/* Profile Setup Form */}
                     <Card className="bg-card border-border shadow-xl shadow-black/20">
-                      <CardHeader><CardTitle className="flex items-center gap-2"><FiBookOpen className="w-5 h-5 text-primary" /> Setup Your Profile</CardTitle></CardHeader>
+                      <CardHeader>
+                        <div className="flex items-center justify-between">
+                          <CardTitle className="flex items-center gap-2"><FiBookOpen className="w-5 h-5 text-primary" /> {studyPlan ? 'Update Your Profile' : 'Setup Your Profile'}</CardTitle>
+                          {studyPlan && (
+                            <Button variant="ghost" size="sm" onClick={() => setShowProfileForm(false)} className="text-xs text-muted-foreground hover:text-foreground">
+                              Back to Plan
+                            </Button>
+                          )}
+                        </div>
+                      </CardHeader>
                       <CardContent className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                           <div>
@@ -369,9 +382,18 @@ export default function DashboardSection({ studyPlan, sessions, loading, error, 
                             <p className="text-xs text-accent font-medium flex items-center gap-1.5"><FiFile className="w-3.5 h-3.5" /> {syllabusDocuments.length} syllabus document(s) will be analyzed for your plan</p>
                           </div>
                         )}
-                        <Button onClick={handleGenerate} disabled={loading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20">
-                          {loading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Generating Plan...</> : syllabusDocuments.length > 0 ? 'Generate Syllabus-Aligned Plan' : 'Generate Study Plan'}
+                        <Button onClick={handleGenerate} disabled={loading || (!profile.experience && !profile.targetRole)} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20">
+                          {loading ? (
+                            <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Generating Plan...</>
+                          ) : studyPlan ? (
+                            syllabusDocuments.length > 0 ? 'Regenerate Syllabus-Aligned Plan' : 'Regenerate Study Plan'
+                          ) : (
+                            syllabusDocuments.length > 0 ? 'Generate Syllabus-Aligned Plan' : 'Generate Study Plan'
+                          )}
                         </Button>
+                        {!profile.experience && !profile.targetRole && !loading && (
+                          <p className="text-xs text-muted-foreground text-center">Please fill in at least your experience level or target role</p>
+                        )}
                       </CardContent>
                     </Card>
                   </>
@@ -532,14 +554,14 @@ export default function DashboardSection({ studyPlan, sessions, loading, error, 
               {/* Right column */}
               <div className="col-span-2 space-y-4">
                 {/* Syllabus Upload (when plan exists) */}
-                {displayPlan && (
+                {displayPlan && !shouldShowSetup && (
                   <Card className="bg-card border-border shadow-lg shadow-black/20">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-sm flex items-center gap-2"><FiUploadCloud className="w-4 h-4 text-primary" /> Syllabus</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-2">
                       <input
-                        ref={fileInputRef}
+                        ref={sidebarFileRef}
                         type="file"
                         accept=".pdf,.docx,.txt"
                         onChange={handleFileSelect}
@@ -563,7 +585,7 @@ export default function DashboardSection({ studyPlan, sessions, loading, error, 
                         <p className="text-xs text-muted-foreground">No syllabus uploaded</p>
                       )}
                       {syllabusError && <p className="text-xs text-destructive">{syllabusError}</p>}
-                      <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()} disabled={syllabusUploading} className="w-full border-border text-xs hover:bg-primary/10 hover:text-primary">
+                      <Button variant="outline" size="sm" onClick={() => sidebarFileRef.current?.click()} disabled={syllabusUploading} className="w-full border-border text-xs hover:bg-primary/10 hover:text-primary">
                         {syllabusUploading ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <FiUploadCloud className="w-3 h-3 mr-1" />}
                         {syllabusUploading ? 'Uploading...' : 'Upload Syllabus'}
                       </Button>
@@ -571,7 +593,7 @@ export default function DashboardSection({ studyPlan, sessions, loading, error, 
                   </Card>
                 )}
 
-                {displayPlan && (
+                {displayPlan && !shouldShowSetup && (
                   <Card className="bg-card border-border shadow-lg shadow-black/20">
                     <CardHeader className="pb-2"><CardTitle className="text-sm">Plan Progress</CardTitle></CardHeader>
                     <CardContent>
@@ -609,11 +631,12 @@ export default function DashboardSection({ studyPlan, sessions, loading, error, 
                   </CardContent>
                 </Card>
 
-                {displayPlan && (
-                  <Button variant="outline" onClick={() => { onGeneratePlan(profile) }} disabled={loading} className="w-full border-border hover:bg-primary/10 hover:text-primary">
-                    {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
-                    Regenerate Plan
-                  </Button>
+                {displayPlan && !shouldShowSetup && (
+                  <div className="space-y-2">
+                    <Button variant="outline" onClick={() => setShowProfileForm(true)} className="w-full border-border hover:bg-primary/10 hover:text-primary text-sm">
+                      <FiBookOpen className="w-4 h-4 mr-2" /> Edit Profile & Regenerate
+                    </Button>
+                  </div>
                 )}
               </div>
             </div>

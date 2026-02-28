@@ -3,9 +3,9 @@
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { FiHome, FiCode, FiBarChart2, FiClock, FiTerminal, FiUser } from 'react-icons/fi'
+import { FiHome, FiCode, FiBarChart2, FiClock, FiTerminal, FiUser, FiInfo } from 'react-icons/fi'
 
-export type NavScreen = 'dashboard' | 'interview' | 'progress' | 'history'
+export type NavScreen = 'dashboard' | 'interview' | 'progress' | 'history' | 'about'
 
 interface SidebarProps {
   activeScreen: NavScreen
@@ -18,6 +18,7 @@ const NAV_ITEMS: { id: NavScreen; label: string; icon: React.ReactNode }[] = [
   { id: 'interview', label: 'Mock Interview', icon: <FiCode className="w-5 h-5" /> },
   { id: 'progress', label: 'Progress & Insights', icon: <FiBarChart2 className="w-5 h-5" /> },
   { id: 'history', label: 'Session History', icon: <FiClock className="w-5 h-5" /> },
+  { id: 'about', label: 'About', icon: <FiInfo className="w-5 h-5" /> },
 ]
 
 const AGENTS = [

@@ -10,6 +10,7 @@ import DashboardSection from './sections/DashboardSection'
 import MockInterviewSection from './sections/MockInterviewSection'
 import ProgressSection from './sections/ProgressSection'
 import SessionHistorySection from './sections/SessionHistorySection'
+import AboutSection from './sections/AboutSection'
 
 // Agent IDs
 const STUDY_PLAN_AGENT = '69a27f71ad98307a3fb27935'
@@ -341,6 +342,11 @@ export default function Page() {
             <SessionHistorySection
               sessions={sessions}
               useSample={useSample}
+            />
+          )}
+          {activeScreen === 'about' && (
+            <AboutSection
+              onNavigate={(screen: string) => setActiveScreen(screen as NavScreen)}
             />
           )}
         </div>
