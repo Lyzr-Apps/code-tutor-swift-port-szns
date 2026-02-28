@@ -1,0 +1,16 @@
+{
+  "agents": {
+    "study_plan_agent": {
+      "agent_id": "69a27afa1f697d7fb7d0115d",
+      "name": "Study Plan Agent"
+    },
+    "mock_interview_agent": {
+      "agent_id": "69a27afb96ed232cfb0c7c52",
+      "name": "Mock Interview Agent"
+    },
+    "progress_analyzer_agent": {
+      "agent_id": "69a27afb71a7effa8577c00b",
+      "name": "Progress Analyzer Agent"
+    }
+  }
+}

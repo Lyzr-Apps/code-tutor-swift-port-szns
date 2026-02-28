@@ -1,0 +1,68 @@
+{
+  "agent_name": "Study Plan Agent",
+  "agent_id": "69a27afa1f697d7fb7d0115d",
+  "description": "Generates a personalized, adaptive study roadmap based on user's experience level, target role, available time, and known/weak topics. Outputs a structured week-by-week plan with topic priorities, resource recommendations, and milestones.",
+  "agent_type": "json",
+  "accessor": "result",
+  "auto_generated": true,
+  "response_schema": {
+    "plan_title": "string",
+    "target_role": "string",
+    "total_weeks": "number",
+    "hours_per_week": "number",
+    "weeks": [
+      {
+        "week_number": "number",
+        "theme": "string",
+        "topics": [
+          {
+            "name": "string",
+            "priority": "string",
+            "estimated_hours": "number",
+            "description": "string",
+            "resources": [
+              "string"
+            ]
+          }
+        ],
+        "milestones": [
+          "string"
+        ]
+      }
+    ],
+    "key_focus_areas": [
+      "string"
+    ],
+    "summary": "string"
+  },
+  "example_response": {
+    "plan_title": "sample string",
+    "target_role": "sample string",
+    "total_weeks": 0,
+    "hours_per_week": 0,
+    "weeks": [
+      {
+        "week_number": 0,
+        "theme": "sample string",
+        "topics": [
+          {
+            "name": "sample string",
+            "priority": "sample string",
+            "estimated_hours": 0,
+            "description": "sample string",
+            "resources": [
+              "sample string"
+            ]
+          }
+        ],
+        "milestones": [
+          "sample string"
+        ]
+      }
+    ],
+    "key_focus_areas": [
+      "sample string"
+    ],
+    "summary": "sample string"
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "agent_name": "Progress Analyzer Agent",
+  "agent_id": "69a27afb71a7effa8577c00b",
+  "description": "Reviews all past interview transcripts, scores, and practice history. Identifies weak topics and skill gaps, generates custom practice problems for weak areas, recommends specific learning resources, and outputs a dynamically adjusted study roadmap replacing the previous plan.",
+  "agent_type": "json",
+  "accessor": "result",
+  "auto_generated": true,
+  "response_schema": {
+    "topic_assessment": [
+      {
+        "topic": "string",
+        "strength_score": "number",
+        "trend": "string",
+        "sessions_count": "number"
+      }
+    ],
+    "weak_areas": [
+      {
+        "topic": "string",
+        "severity": "string",
+        "specific_gaps": [
+          "string"
+        ]
+      }
+    ],
+    "practice_problems": [
+      {
+        "title": "string",
+        "difficulty": "string",
+        "topic": "string",
+        "problem_statement": "string",
+        "expected_approach": "string",
+        "key_concepts": [
+          "string"
+        ]
+      }
+    ],
+    "resource_recommendations": [
+      {
+        "title": "string",
+        "type": "string",
+        "url": "string",
+        "description": "string",
+        "target_topic": "string"
+      }
+    ],
+    "adjusted_roadmap": {
+      "total_weeks": "number",
+      "weeks": [
+        {
+          "week_number": "number",
+          "theme": "string",
+          "topics": [
+            {
+              "name": "string",
+              "priority": "string",
+              "estimated_hours": "number",
+              "description": "string"
+            }
+          ],
+          "milestones": [
+            "string"
+          ]
+        }
+      ]
+    },
+    "analysis_summary": "string"
+  },
+  "example_response": {
+    "topic_assessment": [
+      {
+        "topic": "sample string",
+        "strength_score": 0,
+        "trend": "sample string",
+        "sessions_count": 0
+      }
+    ],
+    "weak_areas": [
+      {
+        "topic": "sample string",
+        "severity": "sample string",
+        "specific_gaps": [
+          "sample string"
+        ]
+      }
+    ],
+    "practice_problems": [
+      {
+        "title": "sample string",
+        "difficulty": "sample string",
+        "topic": "sample string",
+        "problem_statement": "sample string",
+        "expected_approach": "sample string",
+        "key_concepts": [
+          "sample string"
+        ]
+      }
+    ],
+    "resource_recommendations": [
+      {
+        "title": "sample string",
+        "type": "sample string",
+        "url": "sample string",
+        "description": "sample string",
+        "target_topic": "sample string"
+      }
+    ],
+    "adjusted_roadmap": {
+      "total_weeks": 0,
+      "weeks": [
+        {
+          "week_number": 0,
+          "theme": "sample string",
+          "topics": [
+            {
+              "name": "sample string",
+              "priority": "sample string",
+              "estimated_hours": 0,
+              "description": "sample string"
+            }
+          ],
+          "milestones": [
+            "sample string"
+          ]
+        }
+      ]
+    },
+    "analysis_summary": "sample string"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "nodes": [
+    {
+      "id": "input_node",
+      "type": "Input",
+      "label": "User Query",
+      "nodeCategory": "input"
+    },
+    {
+      "id": "study_plan_agent",
+      "type": "Agent",
+      "label": "Study Plan Agent",
+      "nodeCategory": "agent",
+      "agent_id": "69a27afa1f697d7fb7d0115d"
+    },
+    {
+      "id": "mock_interview_agent",
+      "type": "Agent",
+      "label": "Mock Interview Agent",
+      "nodeCategory": "agent",
+      "agent_id": "69a27afb96ed232cfb0c7c52"
+    },
+    {
+      "id": "progress_analyzer_agent",
+      "type": "Agent",
+      "label": "Progress Analyzer Agent",
+      "nodeCategory": "agent",
+      "agent_id": "69a27afb71a7effa8577c00b"
+    }
+  ],
+  "edges": [
+    {
+      "source": "input_node",
+      "target": "study_plan_agent"
+    },
+    {
+      "source": "input_node",
+      "target": "mock_interview_agent"
+    },
+    {
+      "source": "input_node",
+      "target": "progress_analyzer_agent"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "agent_name": "Mock Interview Agent",
+  "agent_id": "69a27afb96ed232cfb0c7c52",
+  "description": "Conducts interactive AI mock coding interviews. Presents coding problems, evaluates user solutions in real-time, asks follow-up questions, adjusts difficulty based on performance within the session, and generates a detailed transcript with per-question scoring and feedback.",
+  "agent_type": "json",
+  "accessor": "result",
+  "auto_generated": true,
+  "response_schema": {
+    "is_complete": "boolean",
+    "message": "string",
+    "current_question": {
+      "number": "number",
+      "difficulty": "string",
+      "problem_statement": "string",
+      "topic": "string",
+      "hints": [
+        "string"
+      ]
+    },
+    "evaluation": {
+      "correctness_score": "number",
+      "complexity_analysis": "string",
+      "code_quality_score": "number",
+      "communication_score": "number",
+      "feedback": "string",
+      "follow_up_question": "string"
+    },
+    "session_summary": {
+      "overall_score": "number",
+      "questions_asked": "number",
+      "difficulty_progression": [
+        "string"
+      ],
+      "strengths": [
+        "string"
+      ],
+      "weaknesses": [
+        "string"
+      ],
+      "recommendations": [
+        "string"
+      ],
+      "detailed_feedback": "string"
+    }
+  },
+  "example_response": {
+    "is_complete": false,
+    "message": "sample string",
+    "current_question": {
+      "number": 0,
+      "difficulty": "sample string",
+      "problem_statement": "sample string",
+      "topic": "sample string",
+      "hints": [
+        "sample string"
+      ]
+    },
+    "evaluation": {
+      "correctness_score": 0,
+      "complexity_analysis": "sample string",
+      "code_quality_score": 0,
+      "communication_score": 0,
+      "feedback": "sample string",
+      "follow_up_question": "sample string"
+    },
+    "session_summary": {
+      "overall_score": 0,
+      "questions_asked": 0,
+      "difficulty_progression": [
+        "sample string"
+      ],
+      "strengths": [
+        "sample string"
+      ],
+      "weaknesses": [
+        "sample string"
+      ],
+      "recommendations": [
+        "sample string"
+      ],
+      "detailed_feedback": "sample string"
+    }
+  }
+}
