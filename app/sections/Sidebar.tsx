@@ -21,7 +21,7 @@ const NAV_ITEMS: { id: NavScreen; label: string; icon: React.ReactNode }[] = [
 ]
 
 const AGENTS = [
-  { id: '69a27afa1f697d7fb7d0115d', name: 'Study Plan Agent', purpose: 'Generates adaptive study roadmaps' },
+  { id: '69a27f71ad98307a3fb27935', name: 'Study Plan Agent', purpose: 'Syllabus-aware study roadmaps' },
   { id: '69a27afb96ed232cfb0c7c52', name: 'Mock Interview Agent', purpose: 'Conducts coding interviews' },
   { id: '69a27afb71a7effa8577c00b', name: 'Progress Analyzer', purpose: 'Analyzes performance trends' },
 ]

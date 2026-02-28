@@ -1,7 +1,7 @@
 {
   "agent_name": "Study Plan Agent",
-  "agent_id": "69a27afa1f697d7fb7d0115d",
-  "description": "Generates a personalized, adaptive study roadmap based on user's experience level, target role, available time, and known/weak topics. Outputs a structured week-by-week plan with topic priorities, resource recommendations, and milestones.",
+  "agent_id": "69a27f71ad98307a3fb27935",
+  "description": "Generates a personalized, adaptive study roadmap based on user's experience level, target role, available time, known/weak topics, and uploaded syllabus documents. Uses the knowledge base to reference the user's actual curriculum and syllabus content when creating study plans. Outputs a structured week-by-week plan with topic priorities, resource recommendations, improvement suggestions, and milestones.",
   "agent_type": "json",
   "accessor": "result",
   "auto_generated": true,
@@ -10,6 +10,19 @@
     "target_role": "string",
     "total_weeks": "number",
     "hours_per_week": "number",
+    "syllabus_based": "boolean",
+    "syllabus_topics_found": [
+      "string"
+    ],
+    "improvement_suggestions": [
+      {
+        "topic": "string",
+        "current_gap": "string",
+        "how_to_improve": "string",
+        "priority": "string",
+        "estimated_time_to_proficiency": "string"
+      }
+    ],
     "weeks": [
       {
         "week_number": "number",
@@ -22,7 +35,8 @@
             "description": "string",
             "resources": [
               "string"
-            ]
+            ],
+            "from_syllabus": "boolean"
           }
         ],
         "milestones": [
@@ -33,6 +47,12 @@
     "key_focus_areas": [
       "string"
     ],
+    "gaps_identified": [
+      {
+        "topic": "string",
+        "recommendation": "string"
+      }
+    ],
     "summary": "string"
   },
   "example_response": {
@@ -40,6 +60,19 @@
     "target_role": "sample string",
     "total_weeks": 0,
     "hours_per_week": 0,
+    "syllabus_based": false,
+    "syllabus_topics_found": [
+      "sample string"
+    ],
+    "improvement_suggestions": [
+      {
+        "topic": "sample string",
+        "current_gap": "sample string",
+        "how_to_improve": "sample string",
+        "priority": "sample string",
+        "estimated_time_to_proficiency": "sample string"
+      }
+    ],
     "weeks": [
       {
         "week_number": 0,
@@ -52,7 +85,8 @@
             "description": "sample string",
             "resources": [
               "sample string"
-            ]
+            ],
+            "from_syllabus": false
           }
         ],
         "milestones": [
@@ -62,6 +96,12 @@
     ],
     "key_focus_areas": [
       "sample string"
+    ],
+    "gaps_identified": [
+      {
+        "topic": "sample string",
+        "recommendation": "sample string"
+      }
     ],
     "summary": "sample string"
   }

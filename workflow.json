@@ -11,7 +11,7 @@
       "type": "Agent",
       "label": "Study Plan Agent",
       "nodeCategory": "agent",
-      "agent_id": "69a27afa1f697d7fb7d0115d"
+      "agent_id": "69a27f71ad98307a3fb27935"
     },
     {
       "id": "mock_interview_agent",

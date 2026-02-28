@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react'
 import { callAIAgent } from '@/lib/aiAgent'
+import { uploadAndTrainDocument, getDocuments, deleteDocuments, type RAGDocument } from '@/lib/ragKnowledgeBase'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import Sidebar, { type NavScreen } from './sections/Sidebar'
@@ -11,9 +12,12 @@ import ProgressSection from './sections/ProgressSection'
 import SessionHistorySection from './sections/SessionHistorySection'
 
 // Agent IDs
-const STUDY_PLAN_AGENT = '69a27afa1f697d7fb7d0115d'
+const STUDY_PLAN_AGENT = '69a27f71ad98307a3fb27935'
 const MOCK_INTERVIEW_AGENT = '69a27afb96ed232cfb0c7c52'
 const PROGRESS_AGENT = '69a27afb71a7effa8577c00b'
+
+// Knowledge Base
+const RAG_ID = '69a27f4f00c2d274880f6c7b'
 
 // Session record type
 interface SessionRecord {
@@ -86,6 +90,12 @@ export default function Page() {
   // Sessions state
   const [sessions, setSessions] = useState<SessionRecord[]>([])
 
+  // Syllabus upload state
+  const [syllabusUploading, setSyllabusUploading] = useState(false)
+  const [syllabusError, setSyllabusError] = useState<string | null>(null)
+  const [syllabusDocuments, setSyllabusDocuments] = useState<RAGDocument[]>([])
+  const [syllabusLoaded, setSyllabusLoaded] = useState(false)
+
   // Load persisted state
   useEffect(() => {
     try {
@@ -96,6 +106,53 @@ export default function Page() {
       const savedProgress = localStorage.getItem('codeprep_progress')
       if (savedProgress) setProgressAnalysis(JSON.parse(savedProgress))
     } catch {}
+    // Load syllabus documents
+    loadSyllabusDocuments()
+  }, [])
+
+  // Load syllabus documents from KB
+  const loadSyllabusDocuments = async () => {
+    try {
+      const result = await getDocuments(RAG_ID)
+      if (result.success && Array.isArray(result.documents)) {
+        setSyllabusDocuments(result.documents)
+        setSyllabusLoaded(true)
+      }
+    } catch {}
+  }
+
+  // Upload syllabus document
+  const handleSyllabusUpload = useCallback(async (file: File) => {
+    setSyllabusUploading(true)
+    setSyllabusError(null)
+    try {
+      const result = await uploadAndTrainDocument(RAG_ID, file)
+      if (result.success) {
+        await loadSyllabusDocuments()
+      } else {
+        setSyllabusError(result.error || 'Failed to upload syllabus')
+      }
+    } catch {
+      setSyllabusError('An error occurred during upload')
+    }
+    setSyllabusUploading(false)
+  }, [])
+
+  // Delete syllabus document
+  const handleSyllabusDelete = useCallback(async (fileName: string) => {
+    setSyllabusUploading(true)
+    setSyllabusError(null)
+    try {
+      const result = await deleteDocuments(RAG_ID, [fileName])
+      if (result.success) {
+        setSyllabusDocuments(prev => prev.filter(d => d.fileName !== fileName))
+      } else {
+        setSyllabusError(result.error || 'Failed to delete document')
+      }
+    } catch {
+      setSyllabusError('An error occurred')
+    }
+    setSyllabusUploading(false)
   }, [])
 
   // Generate Study Plan
@@ -252,6 +309,11 @@ export default function Page() {
               error={planError}
               onGeneratePlan={handleGeneratePlan}
               useSample={useSample}
+              syllabusDocuments={syllabusDocuments}
+              syllabusUploading={syllabusUploading}
+              syllabusError={syllabusError}
+              onSyllabusUpload={handleSyllabusUpload}
+              onSyllabusDelete={handleSyllabusDelete}
             />
           )}
           {activeScreen === 'interview' && (
